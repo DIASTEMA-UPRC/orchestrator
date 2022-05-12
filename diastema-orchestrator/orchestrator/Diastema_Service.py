@@ -28,5 +28,4 @@ class Diastema_Service:
     def getServiceResults(self, service_name, job_id):
         url = self.diastema_services_url+service_name+"/"+str(job_id)
         responce = requests.get(url)
-        # Future use
-        return
+        return responce.json()["features"]

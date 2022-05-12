@@ -15,3 +15,9 @@ class MongoDB_Class:
         analysis_collection = mongo_db[collection]
         analysis_collection.insert_one(record)
         return
+    
+    def updateMongoFeatures(self, client, collection, filters, features):
+        mongo_db = self.mongo_client[client]
+        analysis_collection = mongo_db[collection]
+        analysis_collection.update_one(filters, {"$set": {'features': features}})
+        return

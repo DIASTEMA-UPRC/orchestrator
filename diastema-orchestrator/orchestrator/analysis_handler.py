@@ -4,7 +4,6 @@ from MongoDB_Class import MongoDB_Class
 from FrontEnd_Class import FrontEnd_Class
 
 # Import custom Functions for jobs
-from data_load import data_load
 from data_ingestion import data_ingestion
 from cleaning import cleaning
 from data_join import data_join
@@ -39,13 +38,9 @@ def job_requestor(job_json, jobs_anwers_dict, playbook):
     step = job_json["step"]
     from_step = job_json["from"]
     
-    if(title == "data-load"):
-        print("[INFO] Data-Load Found.")
-        jobs_anwers_dict[step] = data_load(playbook, job_json, jobs_anwers_dict[from_step])
-    
-    if(title == "data-ingestion"):
-        print("[INFO] Data-Ingestion Found.")
-        jobs_anwers_dict[step] = data_ingestion(playbook, job_json)
+    if(title == "dataset"):
+        print("[INFO] Dataset Found.")
+        jobs_anwers_dict[step] = normalised(playbook["database-id"])+"/datasets/"+normalised(job_json["label"])
     
     if(title == "cleaning"):
         print("[INFO] Cleaning Found.")
@@ -125,7 +120,7 @@ def handler(playbook):
     Returns:
         - Nothing.
     """
-    print("[INFO] Finding starting jobs - Data Loads and Data Ingestions.")
+    print("[INFO] Finding starting jobs - Datasets.")
     # The jobs of the playbook.
     json_jobs = playbook["jobs"]
 
