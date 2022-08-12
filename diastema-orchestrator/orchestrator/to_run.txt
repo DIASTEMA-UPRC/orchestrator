@@ -16,6 +16,8 @@ docker run -p 127.0.0.1:5000:5000 ^
 -e DIASTEMA_FRONTEND_PORT=5001 ^
 -e DIASTEMA_SERVICES_HOST=host.docker.internal ^
 -e DIASTEMA_SERVICES_PORT=5001 ^
+-e FUNCTION_SERVICE_HOST=host.docker.internal ^
+-e FUNCTION_SERVICE_PORT=5001 ^
 -e KUBERNETES_HOST=host.docker.internal ^
 -e KUBERNETES_PORT=6006 ^
 orchestrator-server-image
