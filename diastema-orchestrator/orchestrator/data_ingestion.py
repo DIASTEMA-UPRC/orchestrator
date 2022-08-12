@@ -20,9 +20,7 @@ def data_ingestion(playbook):
     ingestion_info = {
         "minio-output" : load_bucket, 
         "job-id" : normalised(playbook["ingestion-id"]),
-        "url" : playbook["link"],
-        "method" : playbook["method"],
-        "token" : playbook["token"]
+        "ingestion_json" : playbook["ingestion_json"]
     }
 
     # Start Ingestion Service
@@ -35,4 +33,4 @@ def data_ingestion(playbook):
     # Get Ingestion results (List of the Dataset's features)
     features = service_obj.getServiceResults("data-ingesting", playbook["ingestion-id"])
 
-    return features
+    return features["features"]

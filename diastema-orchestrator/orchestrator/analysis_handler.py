@@ -15,6 +15,8 @@ from clustering import clustering
 from visualize import visualize
 from data_sink import data_sink
 
+from function_job import function_job
+
 # Import Libraries
 import time
 import os
@@ -45,6 +47,13 @@ def job_requestor(job_json, jobs_anwers_dict, playbook):
     if(title == "cleaning"):
         print("[INFO] Cleaning Found.")
         jobs_anwers_dict[step] = cleaning(playbook, job_json, jobs_anwers_dict[from_step], max_shrink = job_json["max-shrink"])
+    
+    if(title == "function"):
+        print("[INFO] Function Found.")
+        buckets = []
+        for f_step in from_step:
+            buckets.append(jobs_anwers_dict[f_step])
+        jobs_anwers_dict[step] = function_job(playbook, job_json, buckets)
     
     if(title == "classification"):
         print("[INFO] Classification Found.")
@@ -87,16 +96,40 @@ def jobs(job_step, jobs_dict, jobs_anwers_dict, playbook, joins):
     Returns:
         - Nothing.
     """
+    # flagged = False
+    # if(jobs_dict[job_step]["title"] == "data-join" and not(job_step in joins)):
+    #     # If data-join + first time seen => do not go deeper
+    #     # But keep the join as seen 
+    #     joins[job_step] = True
+    #     flagged = True
+    # else:
+    #     job_requestor(jobs_dict[job_step], jobs_anwers_dict, playbook)
+
+    """ NEW CODE IN TESTING """
+    # If this function never found before then add it in functions dictionary
     flagged = False
-    if(jobs_dict[job_step]["title"] == "data-join" and not(job_step in joins)):
-        # If data-join + first time seen => do not go deeper
-        # But keep the join as seen 
-        joins[job_step] = True
-        flagged = True
+    if(type(jobs_dict[job_step]["from"]) == list and not(job_step in joins)):
+        joins[job_step] = 1
+    elif(type(jobs_dict[job_step]["from"]) == list and (job_step in joins)):
+        joins[job_step] += 1
+    
+    if(type(jobs_dict[job_step]["from"]) == list):
+        if(joins[job_step] < len(jobs_dict[job_step]["from"])):
+            flagged = True
+        else:
+            job_requestor(jobs_dict[job_step], jobs_anwers_dict, playbook)
     else:
         job_requestor(jobs_dict[job_step], jobs_anwers_dict, playbook)
 
-    
+    # if(jobs_dict[job_step]["title"] == "function" and not(job_step in functions)):
+    #     # If function + not last time to be found => do not go deeper
+    #     # But keep counting the functions ready results
+    #     functions[job_step] = 1
+    #     flagged = True
+    # else:
+    #     job_requestor(jobs_dict[job_step], jobs_anwers_dict, playbook)
+    """ NEW CODE IN TESTING """
+
     # Depth-first approach
     next_steps = jobs_dict[job_step]["next"]
     for step in next_steps:

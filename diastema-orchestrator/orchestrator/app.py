@@ -50,8 +50,6 @@ def ingestion():
     print("[INFO] Accepted Request.")
     playbook = request.json
 
-    # There should be checkups here for the playbook, in the feature
-
     print("[INFO] Starting a new Thread for the ingestion.")
     thread = threading.Thread(target = ingestion_t, args = (playbook, ))
     thread.start()

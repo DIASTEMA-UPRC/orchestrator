@@ -151,9 +151,43 @@ def data_ingesting_progress():
 
 @app.route("/data-ingesting/<jobid>", methods=["GET"])
 def data_ingesting_results(jobid):
-    features = {"features": ["column1", "column2", "column3"]}
+    features = {
+        "features": [
+            {"name" : "feature1", "type" : "int", "positive" : True, "negative" : False},
+            {"name" : "feature2", "type" : "float", "positive" : True, "negative" : False},
+            {"name" : "feature3", "type" : "bool"}
+            ]
+        }
     return jsonify(features)
 
+@app.route("/function", methods=["POST"])
+def function_job():
+    json_body = request.json
+    logging.info("Loading Given JSON")
+    logging.debug(json.dumps(json_body))
+    time.sleep(2)
+
+    json_attrs = json_body
+    minio_path  = json_attrs["output"].split("/")
+    minio_bucket = minio_path[0]
+    del minio_path[0]
+    minio_object = '/'.join([str(elem) for elem in minio_path])
+    minio_results_object = minio_object + "/calculated.txt"
+    minio_client.put_object(minio_bucket, minio_results_object, io.BytesIO(b"results"), 7)
+
+    logging.info("Function Done")
+    return Response(status=200, mimetype='application/json')
+
+@app.route("/function/progress", methods=["GET"])
+def function_job_progress():
+    id = request.args.get('id')
+    logging.info("The function id is --> "+str(id))
+
+    random_number = random.randint(1, 10)
+    if(random_number<7):
+        return "progress"
+    else:
+        return "complete"
 
 if __name__ == "__main__":
     app.run("localhost", 5001, True)
