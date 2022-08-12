@@ -1,0 +1,15 @@
+{
+  "diastema-token": "diastema-key",
+  "ingestion-id": "a82ea98423683",
+  "database-id": "metis",
+  "user": "panagiotis",
+  "dataset-label": "ships",
+  "ingestion_json": {
+    "url": "http://www.a/url.com",
+    "method": "POST",
+    "query_params": {
+      "param1": "value1",
+      "param2": "value2"
+    }
+  }
+}
