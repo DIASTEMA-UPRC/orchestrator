@@ -1,7 +1,7 @@
 # DIASTEMA Orchestrator
 
 ## Description
-DIASTEMA uses a system to manage all analytical procedures performed by its users [[1]](http).
+DIASTEMA uses a system to manage all analytical procedures performed by its users [[1]](https://github.com/DIASTEMA-UPRC/orchestrator/blob/main/README.md#references).
 
 This system receives a JSON graph that mentions in it all the necessary information for the execution of all procedures. This information refers to which jobs should run first before others, what job each one is, various variables, ids, and more.
 
