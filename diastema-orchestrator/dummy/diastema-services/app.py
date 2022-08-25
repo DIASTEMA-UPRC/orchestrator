@@ -165,6 +165,7 @@ def function_job():
     json_body = request.json
     logging.info("Loading Given JSON")
     logging.debug(json.dumps(json_body))
+    print(json_body)
     time.sleep(2)
 
     json_attrs = json_body
