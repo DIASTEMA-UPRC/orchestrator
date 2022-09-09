@@ -1,5 +1,6 @@
 # Import custom Libraries
 from MinIO_Class import MinIO_Class
+from MongoDB_Class import MongoDB_Class
 
 # Import Libraries
 import socket
@@ -53,7 +54,14 @@ class Kubernetes_Class:
         # variable
         column = call_args[4]
 
+        # variable
+        job_id = call_args[5]
+
+        # MinIO Object to get HOST and PORT 
         minio_obj = MinIO_Class()
+
+        # MongoDB object to get HOST and PORT
+        mongo_obj = MongoDB_Class()
 
         diaste_kube_json = {
             "master-host" : master_host,
@@ -63,11 +71,14 @@ class Kubernetes_Class:
             "minio-port" : str(minio_obj.MINIO_PORT),
             "minio-user" : minio_obj.MINIO_USER,
             "minio-pass" : minio_obj.MINIO_PASS,
+            "mongo-host" : mongo_obj.MONGO_HOST,
+            "mongo-port" : str(mongo_obj.MONGO_PORT),
             "path" : path,
             "algorithm" : algorithm,
             "minio-input" : minio_input,
             "minio-output" : minio_output,
-            "column" : column
+            "column" : column,
+            "job-id" : str(job_id)
         }
 
         self.kubernetes_send(json.dumps(diaste_kube_json))

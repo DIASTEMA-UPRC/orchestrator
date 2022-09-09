@@ -44,14 +44,17 @@ def spark_call(msg):
     cmd += '--conf spark.executorEnv.MINIO_PORT="'+json_attrs["minio-port"]+'" '
     cmd += '--conf spark.executorEnv.MINIO_USER="'+json_attrs["minio-user"]+'" '
     cmd += '--conf spark.executorEnv.MINIO_PASS="'+json_attrs["minio-pass"]+'" '
+    cmd += '--conf spark.executorEnv.MONGO_HOST="'+json_attrs["mongo-host"]+'" '
+    cmd += '--conf spark.executorEnv.MONGO_PORT="'+json_attrs["mongo-port"]+'" '
     cmd += '--conf spark.app.name='+json_attrs["app-name"]+' '
     cmd += '--conf spark.kubernetes.authenticate.driver.serviceAccountName=spark '
-    cmd += '--conf spark.kubernetes.container.image=docker.io/konvoulgaris/diastema-daas-analytics-catalogue:dev '
+    cmd += '--conf spark.kubernetes.container.image=docker.io/konvoulgaris/diastema-daas-analytics-catalogue:latest '
     cmd += json_attrs["path"]+' '
     cmd += json_attrs["algorithm"]+' '
     cmd += json_attrs["minio-input"]+' '
     cmd += json_attrs["minio-output"]+' '
     cmd += json_attrs["column"]+' '
+    cmd += json_attrs["job-id"]+' '
     # os.system(cmd)
     print("[COMMAND]", cmd)
     

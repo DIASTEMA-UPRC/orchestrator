@@ -40,7 +40,7 @@ def regression(playbook, job, last_bucket, algorithm=False, tensorfow_algorithm=
     analysis_bucket = normalised(playbook["database-id"])+"/analysis-"+normalised(playbook["analysis-id"])+"/regressed-"+normalised(job["step"])
 
     # Jobs arguments
-    job_args = [analysis_path, algorithm_to_use, data_bucket, analysis_bucket, job["column"]]
+    job_args = [analysis_path, algorithm_to_use, data_bucket, analysis_bucket, job["column"], job["id"]]
 
     # Make the MinIO Analysis buckers
     minio_obj = MinIO_Class()
