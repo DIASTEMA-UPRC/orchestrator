@@ -2,6 +2,7 @@
 from pb_check import playbook_check as pbc
 from analysis_handler import analysis_thread as analysis_t
 from ingestion_handler import ingestion_thread as ingestion_t
+from ingestion_handler import ingestion_test
 
 # Import Libraries
 import os
@@ -50,6 +51,11 @@ def ingestion():
     print("[INFO] Accepted Request.")
     playbook = request.json
 
+    # If this is a testing then just use a test call in the same thread
+    if playbook["testing"] == True:
+        return ingestion_test(playbook)
+
+    # If this is not a call start a new Thread because it is time consuming
     print("[INFO] Starting a new Thread for the ingestion.")
     thread = threading.Thread(target = ingestion_t, args = (playbook, ))
     thread.start()

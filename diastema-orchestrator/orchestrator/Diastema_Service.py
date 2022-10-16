@@ -27,12 +27,18 @@ class Diastema_Service:
         responce = requests.get(url)
         while True:
             time.sleep(2)
-            if(responce.text == "complete"):
+            if ((responce.json())["status"] != "progress"):
                 break
+            print("Again for:", service_name)
             responce = requests.get(url)
-        return
+        return responce.json()
     
     def getServiceResults(self, service_name, job_id):
         url = self.diastema_services_url+service_name+"/"+str(job_id)
         responce = requests.get(url)
         return responce.json()
+
+    def simpleServiceCall(self, service_name, json_body):
+        url = self.diastema_services_url+service_name
+        responce = requests.post(url, json=json_body)
+        return responce.text, responce.status_code

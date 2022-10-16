@@ -33,7 +33,13 @@ def function_job(playbook, job, last_buckets):
     service_obj.startService("function", function_data)
 
     # Wait for loading to End
-    service_obj.waitForService("function", job["id"])
+    job_res = service_obj.waitForService("function", job["id"])
+
+    if job_res["status"] == "error":
+        # Contact front end for the error of the job
+        front_obj = FrontEnd_Class()
+        front_obj.diastema_call(message = "error", update = job_res["message"]+" for the analysis with ID: "+playbook["analysis-id"])
+        return analysis_bucket, True
 
     # Insert the cleaned data in MongoDB
     function_job_record = {"minio-path":function_bucket, "directory-kind":"function-data", "job-json":job}
@@ -46,4 +52,4 @@ def function_job(playbook, job, last_buckets):
     front_obj.diastema_call(message = "update", update = "Function executed for the analysis with ID: "+playbook["analysis-id"])
 
     # Return the bucket that this job made output to
-    return function_bucket
+    return function_bucket, False

@@ -37,7 +37,13 @@ def cleaning(playbook, job, last_bucket, max_shrink=False, json_schema=False):
     service_obj.startService("data-cleaning", cleaning_info)
 
     # Wait for loading to End
-    service_obj.waitForService("data-cleaning", job["id"])
+    job_res = service_obj.waitForService("data-cleaning", job["id"])
+
+    if job_res["status"] == "error":
+        # Contact front end for the error of the job
+        front_obj = FrontEnd_Class()
+        front_obj.diastema_call(message = "error", update = job_res["message"]+" for the analysis with ID: "+playbook["analysis-id"])
+        return analysis_bucket, True
 
     # Insert the cleaned data in MongoDB
     cleaning_job_record = {"minio-path":analysis_bucket, "directory-kind":"cleaned-data", "job-json":job}
@@ -50,4 +56,4 @@ def cleaning(playbook, job, last_bucket, max_shrink=False, json_schema=False):
     front_obj.diastema_call(message = "update", update = "Cleaning executed for the analysis with ID: "+playbook["analysis-id"])
 
     # Return the bucket that this job made output to 
-    return analysis_bucket
+    return analysis_bucket, False

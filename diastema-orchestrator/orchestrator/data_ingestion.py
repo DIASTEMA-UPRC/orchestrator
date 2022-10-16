@@ -34,3 +34,11 @@ def data_ingestion(playbook):
     features = service_obj.getServiceResults("data-ingesting", playbook["ingestion-id"])
 
     return features["features"]
+
+def ingestion_test_call(playbook):
+    # Get Ingestion content
+    ingestion_json = playbook["ingestion_json"]
+
+    # Start Ingestion Testing Service
+    service_obj = Diastema_Service()
+    return service_obj.simpleServiceCall("data-ingesting/test", ingestion_json)

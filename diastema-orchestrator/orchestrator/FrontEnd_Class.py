@@ -25,5 +25,10 @@ class FrontEnd_Class:
                 "job": job_name,
                 "column": column
             }
-        requests.post(url, form_data)####
+        elif(message == "error"):
+            form_data = {
+                "message": "error",
+                "error": update
+            }
+        requests.post(url, form_data)
         return

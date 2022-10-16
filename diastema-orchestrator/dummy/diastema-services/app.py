@@ -1,4 +1,4 @@
-from flask import Flask, request, Response, jsonify
+from flask import Flask, request, Response, jsonify, json
 import json
 import os
 import logging
@@ -48,6 +48,9 @@ def modelling():
         #print(request.form["path"])
         #print(request.form["job"])
         #print(request.form["column"])
+    elif(message == "error"):
+        logging.info(request.form["message"])
+        logging.info(request.form["error"])
     return Response(status=200, mimetype='application/json')
 
 @app.route("/join", methods=["POST"])
@@ -120,11 +123,8 @@ def data_loading_join_progress():
     id = request.args.get('id')
     logging.info("The Joining id is --> "+str(id))
 
-    random_number = random.randint(1, 10)
-    if(random_number<7):
-        return "progress"
-    else:
-        return "complete"
+    json_response = make_progress_response()
+    return json_response
 
 @app.route("/data-cleaning/progress", methods=["GET"])
 def data_cleaning_progress():
@@ -132,22 +132,16 @@ def data_cleaning_progress():
     id = request.args.get('id')
     logging.info("The Cleaning id is --> "+str(id))
 
-    random_number = random.randint(1, 10)
-    if(random_number<7):
-        return "progress"
-    else:
-        return "complete"
+    json_response = make_progress_response()
+    return json_response
 
 @app.route("/data-ingesting/progress", methods=["GET"])
 def data_ingesting_progress():
     id = request.args.get('id')
     logging.info("The Ingestion id is --> "+str(id))
 
-    random_number = random.randint(1, 10)
-    if(random_number<7):
-        return "progress"
-    else:
-        return "complete"
+    json_response = make_progress_response()
+    return json_response
 
 @app.route("/data-ingesting/<jobid>", methods=["GET"])
 def data_ingesting_results(jobid):
@@ -184,11 +178,35 @@ def function_job_progress():
     id = request.args.get('id')
     logging.info("The function id is --> "+str(id))
 
+    json_response = make_progress_response()
+    return json_response
+
+@app.route("/data-ingesting/test", methods=["POST"])
+def data_ingesting_test():
+    logging.info("Testing ingestion")
+    
+    random_number = random.randint(1, 10)
+    if(random_number<6):
+        return "line1\nline2\nline3", 200
+    else:
+        return "Amazing Bog Problem", 400
+
+def make_progress_response():
+    json_response = {
+        "status" : "error",
+        "message" : "An amazing error."
+    }
+
     random_number = random.randint(1, 10)
     if(random_number<7):
-        return "progress"
+        json_response["status"] = "progress"
     else:
-        return "complete"
+        json_response["status"] = "complete"
+    
+    # Back to error if needed
+    json_response["status"] = "error"
+
+    return json_response
 
 if __name__ == "__main__":
     app.run("localhost", 5001, True)

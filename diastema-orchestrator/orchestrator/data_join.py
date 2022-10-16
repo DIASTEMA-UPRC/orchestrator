@@ -31,7 +31,13 @@ def data_join(playbook, job, last_bucket_1, last_bucket_2):
     service_obj.startService("join", join_data)
 
     # Wait for loading to End
-    service_obj.waitForService("join", job["id"])
+    job_res = service_obj.waitForService("join", job["id"])
+
+    if job_res["status"] == "error":
+        # Contact front end for the error of the job
+        front_obj = FrontEnd_Class()
+        front_obj.diastema_call(message = "error", update = job_res["message"]+" for the analysis with ID: "+playbook["analysis-id"])
+        return analysis_bucket, True
 
     # Insert the cleaned data in MongoDB
     joined_job_record = {"minio-path":joined_bucket, "directory-kind":"joined-data", "job-json":job}
@@ -44,4 +50,4 @@ def data_join(playbook, job, last_bucket_1, last_bucket_2):
     front_obj.diastema_call(message = "update", update = "Join executed for the analysis with ID: "+playbook["analysis-id"])
 
     # Return the bucket that this job made output to
-    return joined_bucket
+    return joined_bucket, False

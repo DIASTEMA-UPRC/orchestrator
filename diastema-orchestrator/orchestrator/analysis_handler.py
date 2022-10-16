@@ -23,7 +23,7 @@ import os
 
 """ Functions used for the json handling """
 # Request a job
-def job_requestor(job_json, jobs_anwers_dict, playbook):
+def job_requestor(job_json, jobs_anwers_dict, playbook, error):
     """
     A function to handle a Vizualization Job from the Diastema JSON playbook.
 
@@ -36,6 +36,9 @@ def job_requestor(job_json, jobs_anwers_dict, playbook):
     Returns:
         - Nothing.
     """
+    # If there is an error then do nothing
+    if error[0] == True : return
+
     title = job_json["title"]
     step = job_json["step"]
     from_step = job_json["from"]
@@ -46,14 +49,14 @@ def job_requestor(job_json, jobs_anwers_dict, playbook):
     
     if(title == "cleaning"):
         print("[INFO] Cleaning Found.")
-        jobs_anwers_dict[step] = cleaning(playbook, job_json, jobs_anwers_dict[from_step], max_shrink = job_json["max-shrink"])
+        jobs_anwers_dict[step], error[0] = cleaning(playbook, job_json, jobs_anwers_dict[from_step], max_shrink = job_json["max-shrink"])
     
     if(title == "function"):
         print("[INFO] Function Found.")
         buckets = []
         for f_step in from_step:
             buckets.append(jobs_anwers_dict[f_step])
-        jobs_anwers_dict[step] = function_job(playbook, job_json, buckets)
+        jobs_anwers_dict[step], error[0] = function_job(playbook, job_json, buckets)
     
     if(title == "classification"):
         print("[INFO] Classification Found.")
@@ -77,12 +80,12 @@ def job_requestor(job_json, jobs_anwers_dict, playbook):
     
     if(title == "data-join"):
         print("[INFO] Data Join Found.")
-        jobs_anwers_dict[step] = data_join(playbook, job_json, jobs_anwers_dict[from_step[0]], jobs_anwers_dict[from_step[1]])
+        jobs_anwers_dict[step], error[0] = data_join(playbook, job_json, jobs_anwers_dict[from_step[0]], jobs_anwers_dict[from_step[1]])
 
     return
 
 # Access jobs by viewing them Depth-first O(N)
-def jobs(job_step, jobs_dict, jobs_anwers_dict, playbook, joins):
+def jobs(job_step, jobs_dict, jobs_anwers_dict, playbook, joins, error):
     """
     A Depth first recursive function, running every job of the Diastema analysis.
 
@@ -96,16 +99,6 @@ def jobs(job_step, jobs_dict, jobs_anwers_dict, playbook, joins):
     Returns:
         - Nothing.
     """
-    # flagged = False
-    # if(jobs_dict[job_step]["title"] == "data-join" and not(job_step in joins)):
-    #     # If data-join + first time seen => do not go deeper
-    #     # But keep the join as seen 
-    #     joins[job_step] = True
-    #     flagged = True
-    # else:
-    #     job_requestor(jobs_dict[job_step], jobs_anwers_dict, playbook)
-
-    """ NEW CODE IN TESTING """
     # If this function never found before then add it in functions dictionary
     flagged = False
     if(type(jobs_dict[job_step]["from"]) == list and not(job_step in joins)):
@@ -117,18 +110,9 @@ def jobs(job_step, jobs_dict, jobs_anwers_dict, playbook, joins):
         if(joins[job_step] < len(jobs_dict[job_step]["from"])):
             flagged = True
         else:
-            job_requestor(jobs_dict[job_step], jobs_anwers_dict, playbook)
+            job_requestor(jobs_dict[job_step], jobs_anwers_dict, playbook, error)
     else:
-        job_requestor(jobs_dict[job_step], jobs_anwers_dict, playbook)
-
-    # if(jobs_dict[job_step]["title"] == "function" and not(job_step in functions)):
-    #     # If function + not last time to be found => do not go deeper
-    #     # But keep counting the functions ready results
-    #     functions[job_step] = 1
-    #     flagged = True
-    # else:
-    #     job_requestor(jobs_dict[job_step], jobs_anwers_dict, playbook)
-    """ NEW CODE IN TESTING """
+        job_requestor(jobs_dict[job_step], jobs_anwers_dict, playbook, error)
 
     # Depth-first approach
     next_steps = jobs_dict[job_step]["next"]
@@ -138,12 +122,12 @@ def jobs(job_step, jobs_dict, jobs_anwers_dict, playbook, joins):
         elif(flagged == True): # If this job is flagged do not try to go deeper
             pass
         else:
-            jobs(step, jobs_dict, jobs_anwers_dict, playbook, joins)
+            jobs(step, jobs_dict, jobs_anwers_dict, playbook, joins, error)
             
     return
 
 # Handle the playbook
-def handler(playbook):
+def handler(playbook, error):
     """
     A function to handle and run the Diastema playbook.
 
@@ -179,9 +163,10 @@ def handler(playbook):
     # for each starting job, start the analysis
     print("[INFO] Starting the Depth-First Algorithm.")
     for starting_job_step in starting_jobs:
+        if error[0] == True : break
         job = jobs_dict[starting_job_step]
         # navigate through all the jobs and execute them in the right order
-        jobs(starting_job_step, jobs_dict, jobs_anwers_dict, playbook, joins)
+        jobs(starting_job_step, jobs_dict, jobs_anwers_dict, playbook, joins, error)
     
     # Print jobs_anwers_dict for testing purposes
     for job_step, answer in jobs_anwers_dict.items():
@@ -193,10 +178,21 @@ def handler(playbook):
 def analysis_thread(playbook):
     print("[INFO] Starting handling the analysis given.")
 
+    # An indicator for errors
+    error = [False]
+
     # Send the playbook for handling
-    handler(playbook)
+    handler(playbook, error)
 
     # Insert metadata in mongo
+    if error[0] == True :
+        # Contact front end for the BAD ending of the analysis
+        print("[INFO] Contacting User for the BAD ending of an analysis.")
+        front_obj = FrontEnd_Class()
+        front_obj.diastema_call(message = "error", update = ("Analysis with the given ID terminated with error: "+normalised(playbook["analysis-id"])))
+        print("[INFO] User contacted.")
+        return
+
     print("[INFO] Inserting analysis metadata in mongoDB.")
     mongo_obj = MongoDB_Class()
     metadata_json = playbook["metadata"]

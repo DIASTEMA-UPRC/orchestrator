@@ -2,7 +2,7 @@
 from MongoDB_Class import MongoDB_Class
 
 # Import custom Functions for jobs
-from data_ingestion import data_ingestion
+from data_ingestion import data_ingestion, ingestion_test_call
 
 # A function called in a new Thread to execute the ingestion
 def ingestion_thread(playbook):
@@ -18,3 +18,7 @@ def ingestion_thread(playbook):
     mongo_obj.updateMongoFeatures("UIDB", "datasets", filters, features)
 
     return
+
+def ingestion_test(playbook):
+    print("[INFO] Starting the test for the ingestion given.")
+    return ingestion_test_call(playbook)
