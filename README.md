@@ -122,5 +122,10 @@ By looking in the logs of each service you will be able to understand how it wor
 
 You can also view your buckets in MinIO to see how the Orchestrator is organizing your results.
 
+## Testing an Ingestion
+
+You can also test if a given dataset for ingestion is valid. This can be done by using the same ingestion files with the key value below:
+- "testing" : true
+
 ## References
 - [1] https://diastema.gr/
