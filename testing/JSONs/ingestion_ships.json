@@ -1,4 +1,5 @@
 {
+  "testing" : false,
   "diastema-token": "diastema-key",
   "ingestion-id": "a82ea98423683",
   "database-id": "metis",
@@ -7,6 +8,9 @@
   "ingestion_json": {
     "url": "http://www.a/url.com",
     "method": "POST",
+    "separator" : ",",
+    "first-line-labels" : false,
+    "labels" : ["featureLabel1", "featureLabel2", "featureLabel3"],
     "query_params": {
       "param1": "value1",
       "param2": "value2"
