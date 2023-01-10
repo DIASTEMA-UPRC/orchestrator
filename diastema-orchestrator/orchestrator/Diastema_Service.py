@@ -29,7 +29,7 @@ class Diastema_Service:
             time.sleep(2)
             if ((responce.json())["status"] != "progress"):
                 break
-            print("Again for:", service_name)
+            print("[INFO] Again for:", service_name)
             responce = requests.get(url)
         return responce.json()
     

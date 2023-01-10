@@ -1,0 +1,110 @@
+{
+    "diastema-token": "diastema-key",
+    "analysis-id": "039ff178fb8a5",
+    "database-id": "metis",
+    "analysis-datetime": "2021-10-19 02:27:22:137",
+    "jobs": [
+      {
+        "id": 1634599631650,
+        "step": 1,
+        "from": 0,
+        "next": [
+          3
+        ],
+        "title": "dataset",
+        "label": "ships",
+        "save": false
+      },
+      {
+        "id": 1634599631652,
+        "step": 2,
+        "from": 0,
+        "next": [
+          4
+        ],
+        "title": "dataset",
+        "label": "boats",
+        "save": false
+      },
+      {
+        "id": 1634599632387,
+        "step": 3,
+        "from": 1,
+        "next": [
+          5
+        ],
+        "title": "cleaning",
+        "save": false,
+        "max-shrink": 0.2
+      },
+      {
+        "id": 1634599632388,
+        "step": 4,
+        "from": 2,
+        "next": [
+          5
+        ],
+        "title": "cleaning",
+        "save": false,
+        "max-shrink": null
+      },
+      {
+        "id": 1634599632348,
+        "step": 5,
+        "from": [3, 4],
+        "next": [
+          6, 9
+        ],
+        "title": "data-join",
+        "column": "ID",
+        "join-type": "Inner"
+      },
+      {
+        "id": 1634599634250,
+        "step": 6,
+        "from": 5,
+        "next": [
+          7, 8
+        ],
+        "title": "classification",
+        "algorithm" : "logistic regression",
+        "column" : "ID",
+        "save": false
+      },
+      {
+        "id": 1634599633250,
+        "step": 7,
+        "from": 6,
+        "next": [
+          0
+        ],
+        "title": "data-sink",
+        "save": false
+      },
+      {
+        "id": 16333599633250,
+        "step": 8,
+        "from": 6,
+        "next": [
+          0
+        ],
+        "title": "visualization",
+        "label" : "viz-1",
+        "save": false
+      },
+      {
+        "id": 16333599633250,
+        "step": 9,
+        "from": 5,
+        "next": [
+          0
+        ],
+        "title": "visualization",
+        "label" : "viz-2",
+        "save": false
+      }
+    ],
+    "metadata":["this", "could", "be", "JSON"]
+    ,
+    "automodel": false
+  }

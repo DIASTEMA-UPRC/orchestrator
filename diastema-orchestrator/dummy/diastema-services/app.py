@@ -154,6 +154,41 @@ def data_ingesting_results(jobid):
         }
     return jsonify(features)
 
+# Visualization Endpoint
+@app.route("/visualization", methods=["POST"])
+def visualization():
+    json_body = request.json
+    logging.info("Loading Given JSON")
+    logging.debug(json.dumps(json_body))
+    time.sleep(2)
+
+    json_attrs = json_body
+    minio_path  = json_attrs["minio-output"].split("/")
+    minio_bucket = minio_path[0]
+    del minio_path[0]
+    minio_object = '/'.join([str(elem) for elem in minio_path])
+
+    # Give two dummy graphs in HTML format
+    # First dummy
+    minio_results_object = minio_object + "/graph1.html"
+    minio_client.put_object(minio_bucket, minio_results_object, io.BytesIO(b"dummy html stuff"), 16)
+
+    # Second dummy
+    minio_results_object = minio_object + "/graph2.html"
+    minio_client.put_object(minio_bucket, minio_results_object, io.BytesIO(b"dummy html stuff"), 16)
+
+    logging.info("Visualization Done")
+    return Response(status=200, mimetype='application/json')
+
+@app.route("/visualization/progress", methods=["GET"])
+def visualization_progress():
+    id = request.args.get('id')
+    logging.info("The Visualization id is --> "+str(id))
+
+    json_response = make_progress_response()
+    return json_response
+
+
 @app.route("/function", methods=["POST"])
 def function_job():
     json_body = request.json
@@ -203,8 +238,8 @@ def make_progress_response():
     else:
         json_response["status"] = "complete"
     
-    # Back to error if needed
-    json_response["status"] = "error"
+    # Back to error if needed (Only for testing)
+    # json_response["status"] = "error"
 
     return json_response
 

@@ -21,3 +21,26 @@ class MongoDB_Class:
         analysis_collection = mongo_db[collection]
         analysis_collection.update_one(filters, {"$set": {'features': features}})
         return
+    
+    def updateMongoVisualization(self, client, collection, filters, metadata):
+        mongo_db = self.mongo_client[client]
+        analysis_collection = mongo_db[collection]
+
+        # Get the current metadata
+        metadata_dict = analysis_collection.find_one(filters)
+        if "visualization" in metadata_dict:
+            metadata_dict = metadata_dict["visualization"]
+        else:
+            metadata_dict = {}
+
+        metadata_dict[metadata["label"]] = metadata["value"]
+            
+        # Update the metadata
+        analysis_collection.update_one(filters, {"$set": {'visualization': metadata_dict}})
+        return
+
+    def updateMetadataStatus(self, client, collection, analysis_id):
+        mongo_db = self.mongo_client[client]
+        analysis_collection = mongo_db[collection]
+        analysis_collection.update_one({"analysisid" : analysis_id}, {"$set": {'status': "completed"}})
+        return

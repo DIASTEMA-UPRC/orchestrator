@@ -70,10 +70,6 @@ def job_requestor(job_json, jobs_anwers_dict, playbook, error):
         print("[INFO] Clustering Found.")
         jobs_anwers_dict[step] = clustering(playbook, job_json, jobs_anwers_dict[from_step], algorithm = job_json["algorithm"])
     
-    if(title == "visualize"):
-        print("[INFO] Visualization Found.")
-        jobs_anwers_dict[step] = visualize(playbook, job_json, jobs_anwers_dict[from_step])
-    
     if(title == "data-sink"):
         print("[INFO] Data-Sink Found.")
         jobs_anwers_dict[step] = data_sink(playbook, job_json, jobs_anwers_dict[from_step])
@@ -81,6 +77,10 @@ def job_requestor(job_json, jobs_anwers_dict, playbook, error):
     if(title == "data-join"):
         print("[INFO] Data Join Found.")
         jobs_anwers_dict[step], error[0] = data_join(playbook, job_json, jobs_anwers_dict[from_step[0]], jobs_anwers_dict[from_step[1]])
+
+    if(title == "visualization"):
+        print("[INFO] Visualization Found.")
+        jobs_anwers_dict[step], error[0] = visualize(playbook, job_json, jobs_anwers_dict[from_step])
 
     return
 
@@ -198,6 +198,7 @@ def analysis_thread(playbook):
     metadata_json = playbook["metadata"]
     metadata_record = {"kind":"metadata", "metadata":metadata_json}
     mongo_obj.insertMongoRecord(normalised(playbook["database-id"]), "analysis_"+normalised(playbook["analysis-id"]), metadata_record)
+    mongo_obj.updateMetadataStatus("UIDB", "pipelines", playbook["analysis-id"])
     print("[INFO] Metadata Inserted.")
 
     # Contact front end for the ending of the analysis
