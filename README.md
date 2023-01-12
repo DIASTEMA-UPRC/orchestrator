@@ -47,8 +47,10 @@ db.dropDatabase()
 use UIDB
 db.datasets.insert( { "organization": "metis", "user": "panagiotis", "label": "ships" } )
 db.datasets.insert( { "organization": "metis", "user": "panagiotis", "label": "boats" } )
+db.pipelines.insert( { "analysisid" : "039ff178fb8a5" })
 cls
 db.datasets.find()
+db.pipelines.find()
 
 ```
 The above can by copy and pasted from top to bottom and it will run automatically.
