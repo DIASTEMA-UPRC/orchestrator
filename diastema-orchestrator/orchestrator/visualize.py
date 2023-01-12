@@ -71,8 +71,14 @@ def visualize(playbook, job, last_bucket):
     mongo_obj = MongoDB_Class()
     mongo_obj.insertMongoRecord(normalised(playbook["database-id"]), "analysis_"+normalised(playbook["analysis-id"]), job_record)
 
+    # Get object names from MinIO Storage
+    graph_names = minio_obj.getObjectsOfPath(normalised(playbook["database-id"]), "analysis-"+normalised(playbook["analysis-id"])+"/visualization-"+normalised(job["step"])+"/")
+    path_names = []
+    for graph_name in graph_names:
+        path_names.append(minio_output+"/"+graph_name)
+
     # Update Mongo Web Application metadata
-    mongo_obj.updateMongoVisualization("UIDB", "pipelines", { "analysisid" :  playbook["analysis-id"]}, {"label": job["label"], "value": minio_output})
+    mongo_obj.updateMongoVisualization("UIDB", "pipelines", { "analysisid" :  playbook["analysis-id"]}, {"label": job["label"], "value": path_names})
 
     # Contact front end to make a visualization
     front_obj = FrontEnd_Class()
