@@ -44,7 +44,7 @@ def visualize(playbook, job, last_bucket):
     minio_obj.put_object(normalised(playbook["database-id"]), "analysis-"+normalised(playbook["analysis-id"])+"/visualization-"+normalised(job["step"])+"/", io.BytesIO(b""), 0,)
 
     form_data = {
-        "analysis-id" : analysis_id,
+        "analysis-id":playbook["analysis-id"],
         "job-id" : job_id,
         "last-job-id" : last_job_id,
         "last-job-title" : last_job_title,

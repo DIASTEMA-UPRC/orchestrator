@@ -32,7 +32,7 @@ def data_load(playbook, job, last_bucket):
     service_obj.waitForService("data-loading", job["id"])
 
     # Insert the raw and loaded data in MongoDB
-    data_load_job_record = {"minio-path":load_bucket, "directory-kind":"loaded-data", "job-json":job}
+    data_load_job_record = {"minio-path":load_bucket, "directory-kind":"loaded-data", "job-json":job, "analysis-id":playbook["analysis-id"]}
 
     mongo_obj = MongoDB_Class()
     mongo_obj.insertMongoRecord(normalised(playbook["database-id"]), "analysis_"+normalised(playbook["analysis-id"]), data_load_job_record)

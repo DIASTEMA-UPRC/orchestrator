@@ -40,7 +40,7 @@ def data_join(playbook, job, last_bucket_1, last_bucket_2):
         return analysis_bucket, True
 
     # Insert the cleaned data in MongoDB
-    joined_job_record = {"minio-path":joined_bucket, "directory-kind":"joined-data", "job-json":job}
+    joined_job_record = {"minio-path":joined_bucket, "directory-kind":"joined-data", "job-json":job, "analysis-id":playbook["analysis-id"]}
 
     mongo_obj = MongoDB_Class()
     mongo_obj.insertMongoRecord(normalised(playbook["database-id"]), "analysis_"+normalised(playbook["analysis-id"]), joined_job_record)

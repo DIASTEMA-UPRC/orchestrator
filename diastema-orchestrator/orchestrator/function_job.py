@@ -42,7 +42,7 @@ def function_job(playbook, job, last_buckets):
         return analysis_bucket, True
 
     # Insert the cleaned data in MongoDB
-    function_job_record = {"minio-path":function_bucket, "directory-kind":"function-data", "job-json":job}
+    function_job_record = {"minio-path":function_bucket, "directory-kind":"function-data", "job-json":job, "analysis-id":playbook["analysis-id"]}
 
     mongo_obj = MongoDB_Class()
     mongo_obj.insertMongoRecord(normalised(playbook["database-id"]), "analysis_"+normalised(playbook["analysis-id"]), function_job_record)

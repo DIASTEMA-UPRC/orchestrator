@@ -46,7 +46,7 @@ def cleaning(playbook, job, last_bucket, max_shrink=False, json_schema=False):
         return analysis_bucket, True
 
     # Insert the cleaned data in MongoDB
-    cleaning_job_record = {"minio-path":analysis_bucket, "directory-kind":"cleaned-data", "job-json":job}
+    cleaning_job_record = {"minio-path":analysis_bucket, "directory-kind":"cleaned-data", "job-json":job, "analysis-id":playbook["analysis-id"]}
 
     mongo_obj = MongoDB_Class()
     mongo_obj.insertMongoRecord(normalised(playbook["database-id"]), "analysis_"+normalised(playbook["analysis-id"]), cleaning_job_record)

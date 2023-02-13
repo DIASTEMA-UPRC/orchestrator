@@ -55,6 +55,7 @@ def spark_call(msg):
     cmd += json_attrs["minio-output"]+' '
     cmd += json_attrs["column"]+' '
     cmd += json_attrs["job-id"]+' '
+    cmd += json_attrs["analysis-id"]+' '
     # os.system(cmd)
     print("[COMMAND]", cmd)
     
