@@ -1,56 +1,75 @@
-INFO 2023-02-13 23:59:10,659 - Server Started
-WARNING 2023-02-13 23:59:10,665 -  * Debugger is active!
-INFO 2023-02-13 23:59:10,666 -  * Debugger PIN: 408-900-185
-INFO 2023-02-13 23:59:21,019 - Loading Given JSON
-DEBUG 2023-02-13 23:59:21,019 - {"minio-input": "metis/datasets/ships", "minio-output": "metis/analysis-039ff178fb8a5/cleaned-3", "job-id": "1634599632387", "max-shrink": 0.2}
-DEBUG 2023-02-13 23:59:23,020 - Starting new HTTP connection (1): localhost:9000
-DEBUG 2023-02-13 23:59:23,026 - http://localhost:9000 "GET /metis?location= HTTP/1.1" 200 128
-DEBUG 2023-02-13 23:59:23,077 - http://localhost:9000 "PUT /metis/analysis-039ff178fb8a5/cleaned-3/cleaned.txt HTTP/1.1" 200 0
-INFO 2023-02-13 23:59:23,077 - Cleaning Done
-INFO 2023-02-13 23:59:23,078 - 127.0.0.1 - - [13/Feb/2023 23:59:23] "POST /data-cleaning HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:23,080 - The Cleaning id is --> 1634599632387
-INFO 2023-02-13 23:59:23,080 - 127.0.0.1 - - [13/Feb/2023 23:59:23] "GET /data-cleaning/progress?id=1634599632387 HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:25,093 - update
-INFO 2023-02-13 23:59:25,093 - Cleaning executed for the analysis with ID: 039ff178fb8a5
-INFO 2023-02-13 23:59:25,093 - 127.0.0.1 - - [13/Feb/2023 23:59:25] "POST /messages HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:25,146 - Loading Given JSON
-DEBUG 2023-02-13 23:59:25,146 - {"minio-input": "metis/datasets/boats", "minio-output": "metis/analysis-039ff178fb8a5/cleaned-4", "job-id": "1634599632388", "max-shrink": null}
-DEBUG 2023-02-13 23:59:27,203 - http://localhost:9000 "PUT /metis/analysis-039ff178fb8a5/cleaned-4/cleaned.txt HTTP/1.1" 200 0
-INFO 2023-02-13 23:59:27,204 - Cleaning Done
-INFO 2023-02-13 23:59:27,204 - 127.0.0.1 - - [13/Feb/2023 23:59:27] "POST /data-cleaning HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:27,206 - The Cleaning id is --> 1634599632388
-INFO 2023-02-13 23:59:27,206 - 127.0.0.1 - - [13/Feb/2023 23:59:27] "GET /data-cleaning/progress?id=1634599632388 HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:29,212 - The Cleaning id is --> 1634599632388
-INFO 2023-02-13 23:59:29,212 - 127.0.0.1 - - [13/Feb/2023 23:59:29] "GET /data-cleaning/progress?id=1634599632388 HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:31,217 - The Cleaning id is --> 1634599632388
-INFO 2023-02-13 23:59:31,217 - 127.0.0.1 - - [13/Feb/2023 23:59:31] "GET /data-cleaning/progress?id=1634599632388 HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:33,222 - The Cleaning id is --> 1634599632388
-INFO 2023-02-13 23:59:33,222 - 127.0.0.1 - - [13/Feb/2023 23:59:33] "GET /data-cleaning/progress?id=1634599632388 HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:35,232 - update
-INFO 2023-02-13 23:59:35,232 - Cleaning executed for the analysis with ID: 039ff178fb8a5
-INFO 2023-02-13 23:59:35,233 - 127.0.0.1 - - [13/Feb/2023 23:59:35] "POST /messages HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:35,287 - Joining Given JSON
-DEBUG 2023-02-13 23:59:35,287 - {"job-id": "1634599632348", "column": "id", "type": "inner", "inputs": ["metis/analysis-039ff178fb8a5/cleaned-3", "metis/analysis-039ff178fb8a5/cleaned-4"], "output": "metis/analysis-039ff178fb8a5/joined-5"}
-DEBUG 2023-02-13 23:59:37,347 - http://localhost:9000 "PUT /metis/analysis-039ff178fb8a5/joined-5/joined.txt HTTP/1.1" 200 0
-INFO 2023-02-13 23:59:37,347 - Joining Done
-INFO 2023-02-13 23:59:37,347 - 127.0.0.1 - - [13/Feb/2023 23:59:37] "POST /join HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:37,349 - The Joining id is --> 1634599632348
-INFO 2023-02-13 23:59:37,349 - 127.0.0.1 - - [13/Feb/2023 23:59:37] "GET /join/progress?id=1634599632348 HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:39,354 - The Joining id is --> 1634599632348
-INFO 2023-02-13 23:59:39,354 - 127.0.0.1 - - [13/Feb/2023 23:59:39] "GET /join/progress?id=1634599632348 HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:41,365 - update
-INFO 2023-02-13 23:59:41,365 - Join executed for the analysis with ID: 039ff178fb8a5
-INFO 2023-02-13 23:59:41,365 - 127.0.0.1 - - [13/Feb/2023 23:59:41] "POST /messages HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:51,575 - update
-INFO 2023-02-13 23:59:51,575 - Classification executed for the analysis with ID: 039ff178fb8a5
-INFO 2023-02-13 23:59:51,576 - 127.0.0.1 - - [13/Feb/2023 23:59:51] "POST /messages HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:51,577 - Sending data to Kafka
-DEBUG 2023-02-13 23:59:51,578 - {"key": "metis", "data": {"key": "metis", "data": "1634599633250"}}
-INFO 2023-02-13 23:59:53,580 - Sending Done
-INFO 2023-02-13 23:59:53,580 - 127.0.0.1 - - [13/Feb/2023 23:59:53] "POST /data-sink HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:53,583 - update
-INFO 2023-02-13 23:59:53,583 - Data Sink Executed for the analysis with ID: 039ff178fb8a5
-INFO 2023-02-13 23:59:53,583 - 127.0.0.1 - - [13/Feb/2023 23:59:53] "POST /messages HTTP/1.1" 200 -
-INFO 2023-02-13 23:59:53,591 - update
-INFO 2023-02-13 23:59:53,591 - Analysis completed with ID: 039ff178fb8a5
-INFO 2023-02-13 23:59:53,592 - 127.0.0.1 - - [13/Feb/2023 23:59:53] "POST /messages HTTP/1.1" 200 -
+INFO 2023-02-23 23:45:27,165 - Server Started
+DEBUG 2023-02-23 23:45:27,182 - Starting new HTTP connection (1): localhost:9000
+DEBUG 2023-02-23 23:45:27,191 - http://localhost:9000 "GET /diastemaviz?location= HTTP/1.1" 200 128
+DEBUG 2023-02-23 23:45:27,197 - http://localhost:9000 "HEAD /diastemaviz HTTP/1.1" 200 0
+WARNING 2023-02-23 23:45:27,203 -  * Debugger is active!
+INFO 2023-02-23 23:45:27,204 -  * Debugger PIN: 709-289-146
+INFO 2023-02-23 23:45:40,691 - Loading Given JSON
+DEBUG 2023-02-23 23:45:40,691 - {"minio-input": "metis/datasets/ships", "minio-output": "metis/analysis-039ff178fb8a5/cleaned-3", "job-id": "13634599632387", "max-shrink": 0.2}
+DEBUG 2023-02-23 23:45:40,801 - http://localhost:9000 "PUT /diastemaviz/13634599632387/graph1.html HTTP/1.1" 200 0
+DEBUG 2023-02-23 23:45:40,919 - http://localhost:9000 "PUT /diastemaviz/13634599632387/graph2.html HTTP/1.1" 200 0
+INFO 2023-02-23 23:45:40,920 - Visualization Done
+DEBUG 2023-02-23 23:45:42,935 - http://localhost:9000 "GET /metis?location= HTTP/1.1" 200 128
+DEBUG 2023-02-23 23:45:43,095 - http://localhost:9000 "PUT /metis/analysis-039ff178fb8a5/cleaned-3/cleaned.txt HTTP/1.1" 200 0
+INFO 2023-02-23 23:45:43,095 - Cleaning Done
+INFO 2023-02-23 23:45:43,096 - 127.0.0.1 - - [23/Feb/2023 23:45:43] "POST /data-cleaning HTTP/1.1" 200 -
+INFO 2023-02-23 23:45:43,101 - The Cleaning id is --> 13634599632387
+INFO 2023-02-23 23:45:43,101 - 127.0.0.1 - - [23/Feb/2023 23:45:43] "GET /data-cleaning/progress?id=13634599632387 HTTP/1.1" 200 -
+INFO 2023-02-23 23:45:45,109 - The Cleaning id is --> 13634599632387
+INFO 2023-02-23 23:45:45,110 - 127.0.0.1 - - [23/Feb/2023 23:45:45] "GET /data-cleaning/progress?id=13634599632387 HTTP/1.1" 200 -
+INFO 2023-02-23 23:45:47,131 - update
+INFO 2023-02-23 23:45:47,131 - Cleaning executed for the analysis with ID: 039ff178fb8a5
+INFO 2023-02-23 23:45:47,132 - 127.0.0.1 - - [23/Feb/2023 23:45:47] "POST /messages HTTP/1.1" 200 -
+INFO 2023-02-23 23:45:47,282 - Loading Given JSON
+DEBUG 2023-02-23 23:45:47,282 - {"minio-input": "metis/datasets/boats", "minio-output": "metis/analysis-039ff178fb8a5/cleaned-4", "job-id": "16345996320388", "max-shrink": null}
+DEBUG 2023-02-23 23:45:47,381 - http://localhost:9000 "PUT /diastemaviz/16345996320388/graph1.html HTTP/1.1" 200 0
+DEBUG 2023-02-23 23:45:47,472 - http://localhost:9000 "PUT /diastemaviz/16345996320388/graph2.html HTTP/1.1" 200 0
+INFO 2023-02-23 23:45:47,473 - Visualization Done
+DEBUG 2023-02-23 23:45:49,629 - http://localhost:9000 "PUT /metis/analysis-039ff178fb8a5/cleaned-4/cleaned.txt HTTP/1.1" 200 0
+INFO 2023-02-23 23:45:49,630 - Cleaning Done
+INFO 2023-02-23 23:45:49,630 - 127.0.0.1 - - [23/Feb/2023 23:45:49] "POST /data-cleaning HTTP/1.1" 200 -
+INFO 2023-02-23 23:45:49,634 - The Cleaning id is --> 16345996320388
+INFO 2023-02-23 23:45:49,635 - 127.0.0.1 - - [23/Feb/2023 23:45:49] "GET /data-cleaning/progress?id=16345996320388 HTTP/1.1" 200 -
+INFO 2023-02-23 23:45:51,653 - update
+INFO 2023-02-23 23:45:51,653 - Cleaning executed for the analysis with ID: 039ff178fb8a5
+INFO 2023-02-23 23:45:51,654 - 127.0.0.1 - - [23/Feb/2023 23:45:51] "POST /messages HTTP/1.1" 200 -
+INFO 2023-02-23 23:45:51,807 - Joining Given JSON
+DEBUG 2023-02-23 23:45:51,807 - {"job-id": "16345996392348", "column": "id", "type": "inner", "inputs": ["metis/analysis-039ff178fb8a5/cleaned-3", "metis/analysis-039ff178fb8a5/cleaned-4"], "output": "metis/analysis-039ff178fb8a5/joined-5"}
+DEBUG 2023-02-23 23:45:51,911 - http://localhost:9000 "PUT /diastemaviz/16345996392348/graph1.html HTTP/1.1" 200 0
+DEBUG 2023-02-23 23:45:52,010 - http://localhost:9000 "PUT /diastemaviz/16345996392348/graph2.html HTTP/1.1" 200 0
+INFO 2023-02-23 23:45:52,011 - Visualization Done
+DEBUG 2023-02-23 23:45:54,165 - http://localhost:9000 "PUT /metis/analysis-039ff178fb8a5/joined-5/joined.txt HTTP/1.1" 200 0
+INFO 2023-02-23 23:45:54,165 - Joining Done
+INFO 2023-02-23 23:45:54,166 - 127.0.0.1 - - [23/Feb/2023 23:45:54] "POST /join HTTP/1.1" 200 -
+INFO 2023-02-23 23:45:54,170 - The Joining id is --> 16345996392348
+INFO 2023-02-23 23:45:54,170 - 127.0.0.1 - - [23/Feb/2023 23:45:54] "GET /join/progress?id=16345996392348 HTTP/1.1" 200 -
+INFO 2023-02-23 23:45:56,178 - The Joining id is --> 16345996392348
+INFO 2023-02-23 23:45:56,179 - 127.0.0.1 - - [23/Feb/2023 23:45:56] "GET /join/progress?id=16345996392348 HTTP/1.1" 200 -
+INFO 2023-02-23 23:45:58,187 - The Joining id is --> 16345996392348
+INFO 2023-02-23 23:45:58,187 - 127.0.0.1 - - [23/Feb/2023 23:45:58] "GET /join/progress?id=16345996392348 HTTP/1.1" 200 -
+INFO 2023-02-23 23:46:00,196 - The Joining id is --> 16345996392348
+INFO 2023-02-23 23:46:00,197 - 127.0.0.1 - - [23/Feb/2023 23:46:00] "GET /join/progress?id=16345996392348 HTTP/1.1" 200 -
+INFO 2023-02-23 23:46:02,205 - The Joining id is --> 16345996392348
+INFO 2023-02-23 23:46:02,206 - 127.0.0.1 - - [23/Feb/2023 23:46:02] "GET /join/progress?id=16345996392348 HTTP/1.1" 200 -
+INFO 2023-02-23 23:46:04,225 - update
+INFO 2023-02-23 23:46:04,225 - Join executed for the analysis with ID: 039ff178fb8a5
+INFO 2023-02-23 23:46:04,225 - 127.0.0.1 - - [23/Feb/2023 23:46:04] "POST /messages HTTP/1.1" 200 -
+INFO 2023-02-23 23:46:15,020 - update
+INFO 2023-02-23 23:46:15,020 - Classification executed for the analysis with ID: 039ff178fb8a5
+INFO 2023-02-23 23:46:15,020 - 127.0.0.1 - - [23/Feb/2023 23:46:15] "POST /messages HTTP/1.1" 200 -
+INFO 2023-02-23 23:46:15,025 - Sending data to Kafka
+DEBUG 2023-02-23 23:46:15,025 - {"key": "metis", "data": {"key": "metis", "data": "16354599633250"}}
+INFO 2023-02-23 23:46:17,027 - Sending Done
+INFO 2023-02-23 23:46:17,028 - 127.0.0.1 - - [23/Feb/2023 23:46:17] "POST /data-sink HTTP/1.1" 200 -
+INFO 2023-02-23 23:46:17,034 - update
+INFO 2023-02-23 23:46:17,034 - Data Sink Executed for the analysis with ID: 039ff178fb8a5
+INFO 2023-02-23 23:46:17,034 - 127.0.0.1 - - [23/Feb/2023 23:46:17] "POST /messages HTTP/1.1" 200 -
+INFO 2023-02-23 23:46:17,120 - update
+INFO 2023-02-23 23:46:17,120 - Visualization Executed for the analysis with ID: 039ff178fb8a5
+INFO 2023-02-23 23:46:17,120 - 127.0.0.1 - - [23/Feb/2023 23:46:17] "POST /messages HTTP/1.1" 200 -
+INFO 2023-02-23 23:46:17,196 - update
+INFO 2023-02-23 23:46:17,197 - Visualization Executed for the analysis with ID: 039ff178fb8a5
+INFO 2023-02-23 23:46:17,197 - 127.0.0.1 - - [23/Feb/2023 23:46:17] "POST /messages HTTP/1.1" 200 -
+INFO 2023-02-23 23:46:17,215 - update
+INFO 2023-02-23 23:46:17,215 - Analysis completed with ID: 039ff178fb8a5
+INFO 2023-02-23 23:46:17,215 - 127.0.0.1 - - [23/Feb/2023 23:46:17] "POST /messages HTTP/1.1" 200 -
