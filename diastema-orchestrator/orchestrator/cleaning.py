@@ -24,7 +24,7 @@ def cleaning(playbook, job, last_bucket, max_shrink=False, json_schema=False):
     minio_obj.put_object(normalised(playbook["database-id"]), "analysis-"+normalised(playbook["analysis-id"])+"/cleaned-"+normalised(job["step"])+"/", io.BytesIO(b""), 0,)
 
     # Make the websocket call for the Data Cleaning Service
-    form_data = {"minio-input": data_bucket, "minio-output": analysis_bucket, "job-id":normalised(job["id"])}
+    form_data = {"minio-input": data_bucket, "minio-output": analysis_bucket, "job-id":normalised(job["id"]), "analysis-id" : playbook["analysis-id"]}
     # Optional attr max-shrink
     if max_shrink != False:
         form_data["max-shrink"] = max_shrink
