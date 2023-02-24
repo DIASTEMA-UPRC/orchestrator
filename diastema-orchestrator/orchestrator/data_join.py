@@ -23,7 +23,8 @@ def data_join(playbook, job, last_bucket_1, last_bucket_2):
         "column" : normalised(job["column"]),
         "type" : normalised(job["join-type"]),
         "inputs" : [last_bucket_1, last_bucket_2],
-        "output" : joined_bucket
+        "output" : joined_bucket,
+        "analysis-id" : playbook["analysis-id"]
     }
 
     # Start Loading Service
