@@ -22,7 +22,8 @@ def function_job(playbook, job, last_buckets):
         "job-id" : normalised(job["id"]),
         "inputs" : last_buckets,
         "output" : function_bucket,
-        "function" : job["function"]
+        "function" : job["function"],
+        "analysis-id" : playbook["analysis-id"]
     }
 
     # Start Loading Service
