@@ -33,13 +33,16 @@ class MinIO_Class:
         return
 
     def getObjectsOfPath(self, bucket, object_as_path):
+        print("getObjectsOfPath: ", bucket, "/", object_as_path)
         objects = self.minio_client.list_objects(bucket, object_as_path, recursive=True)
         names = []
         first_iteration = True
         for obj in objects:
+            """ Removing for debugging purposes
             if first_iteration:
                 first_iteration = False
                 continue
+            """
             names.append(obj.object_name.split("/")[-1])
         return names
 

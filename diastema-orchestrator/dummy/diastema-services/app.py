@@ -13,6 +13,8 @@ MINIO_PORT = int(os.getenv("MINIO_PORT", 9000))
 MINIO_USER = os.getenv("MINIO_USER", "diastema")
 MINIO_PASS = os.getenv("MINIO_PASS", "diastema")
 
+DIASTEMA_VISUALIZATION_BUCKET = "diastemaviz"
+
 # MinIO HOST and Client
 minio_host = MINIO_HOST+":"+str(MINIO_PORT)
 minio_client = Minio(
@@ -34,6 +36,25 @@ logging.info("Server Started")
 
 # Flask app
 app = Flask(__name__)
+
+# Make the Visualization Bucket if it doesn't exist
+def build_vizualization_bucket():
+    if not minio_client.bucket_exists(DIASTEMA_VISUALIZATION_BUCKET):
+        minio_client.make_bucket(DIASTEMA_VISUALIZATION_BUCKET)
+    return
+
+# Leave Vizualization Results for the job-id given
+def vizualization_results(job_id):
+    # First dummy
+    minio_results_object = job_id + "/graph1.html"
+    minio_client.put_object(DIASTEMA_VISUALIZATION_BUCKET, minio_results_object, io.BytesIO(b"dummy html stuff"), 16)
+
+    # Second dummy
+    minio_results_object = job_id + "/graph2.html"
+    minio_client.put_object(DIASTEMA_VISUALIZATION_BUCKET, minio_results_object, io.BytesIO(b"dummy html stuff"), 16)
+
+    logging.info("Visualization Done")
+    return
 
 """ Flask endpoints - Dummy Front End Endpoints """
 # A dummy endpoint to represent the answer of the front end services
@@ -58,6 +79,10 @@ def data_loading_join():
     json_body = request.json
     logging.info("Joining Given JSON")
     logging.debug(json.dumps(json_body))
+
+    # Dummy visualization
+    vizualization_results(str(json_body["job-id"]))
+
     time.sleep(2)
 
     json_attrs = json_body
@@ -77,6 +102,10 @@ def data_cleaning():
     json_body = request.json
     logging.info("Loading Given JSON")
     logging.debug(json.dumps(json_body))
+
+    # Dummy visualization
+    vizualization_results(str(json_body["job-id"]))
+    
     time.sleep(2)
 
     json_attrs = json_body
@@ -244,4 +273,5 @@ def make_progress_response():
     return json_response
 
 if __name__ == "__main__":
+    build_vizualization_bucket()
     app.run("localhost", 5001, True)

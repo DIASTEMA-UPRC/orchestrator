@@ -48,7 +48,7 @@ def clustering(playbook, job, last_bucket, algorithm=False, tensorfow_algorithm=
     analysis_bucket = minioString(playbook["database-id"])+"/analysis-"+minioString(playbook["analysis-id"])+"/clustered-"+minioString(job["step"])
 
     # Jobs arguments (There is no column in clustering jobs)
-    job_args = [analysis_path, algorithm_to_use, data_bucket, analysis_bucket, "dummycolumn", job["id"]]
+    job_args = [analysis_path, algorithm_to_use, data_bucket, analysis_bucket, "dummycolumn", job["id"], playbook["analysis-id"]]
 
     # Make the MinIO Analysis buckets
     minio_obj = MinIO_Class()

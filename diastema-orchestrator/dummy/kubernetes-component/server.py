@@ -12,6 +12,8 @@ MINIO_PORT = int(os.getenv("MINIO_PORT", 9000))
 MINIO_USER = os.getenv("MINIO_USER", "diastema")
 MINIO_PASS = os.getenv("MINIO_PASS", "diastema")
 
+DIASTEMA_VISUALIZATION_BUCKET = "diastemaviz"
+
 # MinIO HOST and Client
 minio_host = MINIO_HOST+":"+str(MINIO_PORT)
 minio_client = Minio(
@@ -30,6 +32,25 @@ FORMAT = 'utf-8'
 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server.bind(ADDR)
+
+# Make the Visualization Bucket if it doesn't exist
+def build_vizualization_bucket():
+    if not minio_client.bucket_exists(DIASTEMA_VISUALIZATION_BUCKET):
+        minio_client.make_bucket(DIASTEMA_VISUALIZATION_BUCKET)
+    return
+
+# Leave Vizualization Results for the job-id given
+def vizualization_results(job_id):
+    # First dummy
+    minio_results_object = job_id + "/graph1.html"
+    minio_client.put_object(DIASTEMA_VISUALIZATION_BUCKET, minio_results_object, io.BytesIO(b"dummy html stuff"), 16)
+
+    # Second dummy
+    minio_results_object = job_id + "/graph2.html"
+    minio_client.put_object(DIASTEMA_VISUALIZATION_BUCKET, minio_results_object, io.BytesIO(b"dummy html stuff"), 16)
+
+    print("Visualization Done")
+    return
 
 # A function to handle spark calls
 def spark_call(msg):
@@ -55,6 +76,7 @@ def spark_call(msg):
     cmd += json_attrs["minio-output"]+' '
     cmd += json_attrs["column"]+' '
     cmd += json_attrs["job-id"]+' '
+    cmd += json_attrs["analysis-id"]+' '
     # os.system(cmd)
     print("[COMMAND]", cmd)
     
@@ -68,6 +90,9 @@ def spark_call(msg):
     minio_results_object = minio_object + "/results.txt"
     minio_client.put_object(minio_bucket, minio_success_object, io.BytesIO(b""), 0)
     minio_client.put_object(minio_bucket, minio_results_object, io.BytesIO(b"results"), 7)
+
+    # Dummy Visualization
+    vizualization_results(json_attrs["job-id"])
     return
 
 # Function to handle clients

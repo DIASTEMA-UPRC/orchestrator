@@ -57,6 +57,9 @@ class Kubernetes_Class:
         # variable
         job_id = call_args[5]
 
+        # variable
+        analysis_id = call_args[6]
+
         # MinIO Object to get HOST and PORT 
         minio_obj = MinIO_Class()
 
@@ -78,7 +81,8 @@ class Kubernetes_Class:
             "minio-input" : minio_input,
             "minio-output" : minio_output,
             "column" : column,
-            "job-id" : str(job_id)
+            "job-id" : str(job_id),
+            "analysis-id" : str(analysis_id)
         }
 
         self.kubernetes_send(json.dumps(diaste_kube_json))
