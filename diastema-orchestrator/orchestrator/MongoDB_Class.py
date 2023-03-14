@@ -75,8 +75,11 @@ class MongoDB_Class:
             toolkit_record[param] = params[param]
 
         # Remove not needed params
-        del toolkit_record["max-trials"]
-        del toolkit_record["meta-learning"]
+        if "max-trials" in toolkit_record:
+            del toolkit_record["max-trials"]
+        
+        if "meta-learning" in toolkit_record:
+            del toolkit_record["meta-learning"]
 
         # Insert the record
         datatoolkit_collection.insert_one(toolkit_record)
