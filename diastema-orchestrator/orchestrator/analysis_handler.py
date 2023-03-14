@@ -176,6 +176,7 @@ def handler(playbook, error):
 
 # A function called in a new Thread to execute the analysis
 def analysis_thread(playbook):
+    start_time = time.time()    # Get the start time
     print("[INFO] Starting handling the analysis given.")
 
     # An indicator for errors
@@ -192,6 +193,13 @@ def analysis_thread(playbook):
         front_obj.diastema_call(message = "error", update = ("Analysis with the given ID terminated with error: "+normalised(playbook["analysis-id"])))
         print("[INFO] User contacted.")
         return
+    
+    # Calculate the execution time in milliseconds
+    end_time = time.time()
+    milliseconds = (end_time - start_time) * 1000
+
+    # Make milliseconds integer
+    milliseconds = int(milliseconds)
 
     print("[INFO] Inserting analysis metadata in mongoDB.")
     mongo_obj = MongoDB_Class()
@@ -200,6 +208,9 @@ def analysis_thread(playbook):
     mongo_obj.insertMongoRecord(normalised(playbook["database-id"]), "analysis_"+normalised(playbook["analysis-id"]), metadata_record)
     mongo_obj.updateMetadataStatus("UIDB", "pipelines", playbook["analysis-id"])
     print("[INFO] Metadata Inserted.")
+
+    # Update the execution time of the analysis in mongoDB
+    mongo_obj.updateMongoPerformanceMetrics("UIDB", "pipelines", { "analysisid" :  playbook["analysis-id"]}, {"label": "analysis-exec-speed", "value": milliseconds})
 
     # Contact front end for the ending of the analysis
     print("[INFO] Contacting User for the ending of an analysis.")

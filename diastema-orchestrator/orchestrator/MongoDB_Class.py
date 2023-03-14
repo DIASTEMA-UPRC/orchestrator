@@ -44,3 +44,40 @@ class MongoDB_Class:
         analysis_collection = mongo_db[collection]
         analysis_collection.update_one({"analysisid" : analysis_id}, {"$set": {'status': "completed"}})
         return
+    
+    def updateMongoPerformanceMetrics(self, client, collection, filters, metadata):
+        mongo_db = self.mongo_client[client]
+        analysis_collection = mongo_db[collection]
+
+        # Get the current metadata
+        metadata_dict = analysis_collection.find_one(filters)
+        if "performance" in metadata_dict:
+            metadata_dict = metadata_dict["performance"]
+        else:
+            metadata_dict = {}
+
+        metadata_dict[metadata["label"]] = metadata["value"]
+            
+        # Update the metadata
+        analysis_collection.update_one(filters, {"$set": {'performance': metadata_dict}})
+        return
+    
+    def insertDataToolkitParams(self, job_id, params):
+        mongo_db = self.mongo_client["Diastema"]
+        datatoolkit_collection = mongo_db["datatoolkit"]
+
+        # Make the record to insert in MongoDB
+
+        toolkit_record = {"job-id": str(job_id)}
+
+        # Insert the params
+        for param in params:
+            toolkit_record[param] = params[param]
+
+        # Remove not needed params
+        del toolkit_record["max-trials"]
+        del toolkit_record["meta-learning"]
+
+        # Insert the record
+        datatoolkit_collection.insert_one(toolkit_record)
+        return
