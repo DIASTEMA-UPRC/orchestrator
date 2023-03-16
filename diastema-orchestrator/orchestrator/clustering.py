@@ -12,6 +12,8 @@ import io
 def clustering(playbook, job, last_bucket, algorithm=False, tensorfow_algorithm=False):
     algorithms = {
         "k-means clustering" : "Kmeans",
+        "latent dirichlet allocation" : "LDA",
+        "gaussian mixture" : "GMM",
         "generalized linear regression" : False,   # Not imported yet
         "decision tree regression" : False,        # Not imported yet
         "random forest regression" : False,        # Not imported yet
