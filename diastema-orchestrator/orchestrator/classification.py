@@ -38,6 +38,12 @@ def classification(playbook, job, last_bucket, algorithm=False, tensorfow_algori
     # Data Bucket = last jobs output bucket
     data_bucket = last_bucket
 
+    """ AutoML (Must be implemented in Regression, Classification and Clustering) """
+
+    # Update MongoDB with the parameters of the job
+    mongo_obj = MongoDB_Class()
+    mongo_obj.insertDataToolkitParams(job["id"], job["params"])
+
     # Analysis Bucket = User/analysis-id/job-step
     analysis_bucket = normalised(playbook["database-id"])+"/analysis-"+normalised(playbook["analysis-id"])+"/classified-"+normalised(job["step"])
 
@@ -58,7 +64,6 @@ def classification(playbook, job, last_bucket, algorithm=False, tensorfow_algori
     # Insert the classified data in MongoDB
     classification_job_record = {"minio-path":analysis_bucket, "directory-kind":"classified-data", "job-json":job}
 
-    mongo_obj = MongoDB_Class()
     mongo_obj.insertMongoRecord(normalised(playbook["database-id"]), "analysis_"+normalised(playbook["analysis-id"]), classification_job_record)
 
     # Contact front end for the ending of the job

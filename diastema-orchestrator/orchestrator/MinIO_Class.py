@@ -18,6 +18,7 @@ class MinIO_Class:
         return
     
     def put_object(self, bucket, object_as_path, bytes_input, size):
+        self.make_bucket(bucket)
         self.minio_client.put_object(bucket, object_as_path, bytes_input, size)
         return
 

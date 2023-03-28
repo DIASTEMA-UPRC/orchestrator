@@ -36,6 +36,16 @@ def regression(playbook, job, last_bucket, algorithm=False, tensorfow_algorithm=
     # Data Bucket = last jobs output bucket
     data_bucket = last_bucket
 
+    """ AutoML (Must be implemented in Regression, Classification and Clustering)
+    # Call AutoML if the user wants to use it
+    if job["automl"] == True:
+        automl_results = automl_caller(data_bucket, job) # This will probably use a new module
+    """ # Update possible performance metrics as well
+
+    # Update MongoDB with the parameters of the job
+    mongo_obj = MongoDB_Class()
+    mongo_obj.insertDataToolkitParams(job["id"], job["params"])
+
     # Analysis Bucket = User/analysis-id/job-step
     analysis_bucket = normalised(playbook["database-id"])+"/analysis-"+normalised(playbook["analysis-id"])+"/regressed-"+normalised(job["step"])
 
@@ -56,7 +66,6 @@ def regression(playbook, job, last_bucket, algorithm=False, tensorfow_algorithm=
     # Insert the regressed data in MongoDB
     regression_job_record = {"minio-path":analysis_bucket, "directory-kind":"regressed-data", "job-json":job}
 
-    mongo_obj = MongoDB_Class()
     mongo_obj.insertMongoRecord(normalised(playbook["database-id"]), "analysis_"+normalised(playbook["analysis-id"]), regression_job_record)
 
     # Contact front end for the ending of the job
