@@ -1,5 +1,6 @@
 # Import custom Libraries
 from normalizing import normalised
+from automl import execute_automl
 
 from MongoDB_Class import MongoDB_Class
 from MinIO_Class import MinIO_Class
@@ -11,13 +12,11 @@ import io
 
 def clustering(playbook, job, last_bucket, algorithm=False, tensorfow_algorithm=False):
     algorithms = {
-        "k-means clustering" : "Kmeans",
-        "latent dirichlet allocation" : "LDA",
-        "gaussian mixture" : "GMM",
-        "generalized linear regression" : False,   # Not imported yet
-        "decision tree regression" : False,        # Not imported yet
-        "random forest regression" : False,        # Not imported yet
-        "gradient-boosted tree regression" : False # Not imported yet
+        "false" : "false",                              # Algorithm not selected
+        "k-means" : "kmeans",
+        "latent dirichlet allocation" : "lda",
+        "gaussian mixture model" : "gmm",
+        "power iteration clustering" : "pic"
     }
 
     algorithm_to_use = ""
@@ -46,7 +45,20 @@ def clustering(playbook, job, last_bucket, algorithm=False, tensorfow_algorithm=
     # Data Bucket = last jobs output bucket
     data_bucket = last_bucket
 
-    """ AutoML (Must be implemented in Regression, Classification and Clustering) """
+    #################
+    # Call AutoML if the user wants to use it
+    automl_results = False
+    if job["automl"] == True:
+        if algorithm_to_use != "false" : 
+            job["params"]["algorithm"] = algorithm_to_use
+        automl_results = execute_automl(data_bucket, "clustering", job["id"], job["column"], job["params"])
+        if automl_results["status"] == "error":
+            return automl_results["message"], True
+        algorithm_to_use = automl_results["results"]["algorithm"]
+        job["params"] = automl_results["results"]
+        job["params"].pop("algorithm")
+        # automl_execution_time = automl_results["exec-speed"]  ####### In the future we need to handle this As a backend and frontend issue
+    ################# Update possible performance metrics as well
 
     # Update MongoDB with the parameters of the job
     mongo_obj = MongoDB_Class()
@@ -79,4 +91,4 @@ def clustering(playbook, job, last_bucket, algorithm=False, tensorfow_algorithm=
     front_obj.diastema_call(message = "update", update = "Clustering executed for the analysis with ID: "+playbook["analysis-id"])
 
     # Return the bucket that this job made output to 
-    return analysis_bucket
+    return analysis_bucket, False

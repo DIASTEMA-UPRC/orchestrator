@@ -44,6 +44,8 @@ You can execute the functionality with other prerequisites and commands as well!
 ```
 use UIDB
 db.dropDatabase()
+use Diastema
+db.dropDatabase()
 use UIDB
 db.datasets.insert( { "organization": "metis", "user": "panagiotis", "label": "ships" } )
 db.datasets.insert( { "organization": "metis", "user": "panagiotis", "label": "boats" } )

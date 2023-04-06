@@ -40,7 +40,7 @@ def function_job(playbook, job, last_buckets):
         # Contact front end for the error of the job
         front_obj = FrontEnd_Class()
         front_obj.diastema_call(message = "error", update = job_res["message"]+" for the analysis with ID: "+playbook["analysis-id"])
-        return analysis_bucket, True
+        return function_bucket, True
 
     # Insert the cleaned data in MongoDB
     function_job_record = {"minio-path":function_bucket, "directory-kind":"function-data", "job-json":job, "analysis-id":playbook["analysis-id"]}

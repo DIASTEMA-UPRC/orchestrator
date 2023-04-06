@@ -74,6 +74,40 @@ def modelling():
         logging.info(request.form["error"])
     return Response(status=200, mimetype='application/json')
 
+# Below is the AutoML
+@app.route("/automl", methods=["POST"])
+def automl():
+    json_body = request.json
+    logging.info("AutoML Given JSON")
+    logging.debug(json.dumps(json_body))
+
+    # This will only return forcasted data
+    time.sleep(5)
+    # print(json_body)
+
+    logging.info("AutoML Done")
+    return Response(status=200, mimetype='application/json')
+
+@app.route("/automl/progress", methods=["GET"])
+def automl_progress():
+    # here we want to get the value of id (i.e. ?id=some-value)
+    id = request.args.get('id')
+    logging.info("The AutoML id is --> "+str(id))
+
+    json_response = make_progress_response()
+
+    if json_response["status"] == "complete":
+        json_response["exec-speed"] = "1.5"
+        json_response["results"] = {
+            "algorithm": "logistic regression",
+            "random-parameter-1": "0.5",
+            "random-parameter-2": "0.6",
+            "random-parameter-3": "0.7"
+        }
+
+    return json_response
+
+# Below are the rest of the dummy endpoints
 @app.route("/join", methods=["POST"])
 def data_loading_join():
     json_body = request.json
@@ -271,6 +305,8 @@ def make_progress_response():
     # json_response["status"] = "error"
 
     return json_response
+
+
 
 if __name__ == "__main__":
     build_vizualization_bucket()

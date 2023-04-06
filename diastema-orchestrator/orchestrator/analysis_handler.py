@@ -60,15 +60,15 @@ def job_requestor(job_json, jobs_anwers_dict, playbook, error):
     
     if(title == "classification"):
         print("[INFO] Classification Found.")
-        jobs_anwers_dict[step] = classification(playbook, job_json, jobs_anwers_dict[from_step], algorithm = job_json["algorithm"])
+        jobs_anwers_dict[step], error[0] = classification(playbook, job_json, jobs_anwers_dict[from_step], algorithm = job_json["algorithm"])
     
     if(title == "regression"):
         print("[INFO] Regression Found.")
-        jobs_anwers_dict[step] = regression(playbook, job_json, jobs_anwers_dict[from_step], algorithm = job_json["algorithm"])
+        jobs_anwers_dict[step], error[0] = regression(playbook, job_json, jobs_anwers_dict[from_step], algorithm = job_json["algorithm"])
     
     if(title == "clustering"):
         print("[INFO] Clustering Found.")
-        jobs_anwers_dict[step] = clustering(playbook, job_json, jobs_anwers_dict[from_step], algorithm = job_json["algorithm"])
+        jobs_anwers_dict[step], error[0] = clustering(playbook, job_json, jobs_anwers_dict[from_step], algorithm = job_json["algorithm"])
     
     if(title == "data-sink"):
         print("[INFO] Data-Sink Found.")

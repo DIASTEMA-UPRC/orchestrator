@@ -38,7 +38,7 @@ def data_join(playbook, job, last_bucket_1, last_bucket_2):
         # Contact front end for the error of the job
         front_obj = FrontEnd_Class()
         front_obj.diastema_call(message = "error", update = job_res["message"]+" for the analysis with ID: "+playbook["analysis-id"])
-        return analysis_bucket, True
+        return joined_bucket, True
 
     # Insert the cleaned data in MongoDB
     joined_job_record = {"minio-path":joined_bucket, "directory-kind":"joined-data", "job-json":job, "analysis-id":playbook["analysis-id"]}

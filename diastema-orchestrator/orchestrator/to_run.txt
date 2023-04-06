@@ -20,4 +20,6 @@ docker run -p 127.0.0.1:5000:5000 ^
 -e FUNCTION_SERVICE_PORT=5001 ^
 -e KUBERNETES_HOST=host.docker.internal ^
 -e KUBERNETES_PORT=6006 ^
+-e AUTOML_HOST=host.docker.internal ^
+-e AUTOML_PORT=5001 ^
 orchestrator-server-image
