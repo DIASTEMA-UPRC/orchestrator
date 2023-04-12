@@ -59,7 +59,8 @@ def classification(playbook, job, last_bucket, algorithm=False, tensorfow_algori
 
     # Update MongoDB with the parameters of the job
     mongo_obj = MongoDB_Class()
-    mongo_obj.insertDataToolkitParams(job["id"], job["params"])
+    if "params" in job:
+        mongo_obj.insertDataToolkitParams(job["id"], job["params"])
 
     # Analysis Bucket = User/analysis-id/job-step
     analysis_bucket = normalised(playbook["database-id"])+"/analysis-"+normalised(playbook["analysis-id"])+"/classified-"+normalised(job["step"])
