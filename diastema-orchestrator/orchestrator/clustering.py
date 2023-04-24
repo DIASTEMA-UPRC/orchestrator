@@ -13,14 +13,14 @@ import io
 def clustering(playbook, job, last_bucket, algorithm=False, tensorfow_algorithm=False):
     algorithms = {
         "false" : "false",                              # Algorithm not selected
-        "k-means" : "kmeans",
+        "kmeans" : "kmeans",
         "latent dirichlet allocation" : "lda",
         "gaussian mixture model" : "gmm",
         "power iteration clustering" : "pic"
     }
 
     algorithm_to_use = ""
-    default_job = "k-means clustering"
+    default_job = "kmeans"
     if algorithm==False:
         algorithm_to_use = algorithms[default_job]
     else:
